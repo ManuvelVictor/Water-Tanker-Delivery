@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "668038362912",
+    "project_id": "water-tanker-delivery-flutter",
+    "storage_bucket": "water-tanker-delivery-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668038362912:android:ee3daabf5d316303f5c945",
+        "android_client_info": {
+          "package_name": "com.example.water_tanker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX9nLxwlbqvWQRdMak4rRdficfy3W69QQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:water_tanker/providers/theme_provider.dart';
-import 'package:water_tanker/views/login_screen.dart';
+import 'package:water_tanker/views/home_screen.dart';
+import 'package:water_tanker/views/main_screen.dart';
 
+import '../blocs/navigation_bloc.dart';
+import '../events/navigation_event.dart';
 import '../utils/mediaquery.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -14,6 +19,15 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+
+  final _usernameController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
@@ -29,6 +43,66 @@ class RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
+  void _toggleTheme() {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    themeProvider.toggleTheme();
+  }
+
+  void _goToLoginScreen() {
+    Navigator.pop(context);
+  }
+
+  Future<void> _register() async {
+    final username = _usernameController.text.trim();
+    final phoneNumber = _phoneNumberController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (username.isEmpty || phoneNumber.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      _showSnackbar("All fields are required.");
+      return;
+    }
+
+    if (password != confirmPassword) {
+      _showSnackbar("Passwords do not match.");
+      return;
+    }
+
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final uid = userCredential.user!.uid;
+      await _firestore.collection('users').doc(uid).set({
+        'username': username,
+        'phoneNumber': phoneNumber,
+        'email': email,
+        'theme': Provider.of<ThemeProvider>(context, listen: false).themeMode.toString(),
+      });
+
+      if (!mounted) return;
+
+      Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+    } catch (e) {
+      _showSnackbar("Registration failed. Please try again.");
+    }
+  }
+
+  void _googleSignUp() {
+    // Handle Google Sign-Up
+  }
+
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -36,6 +110,7 @@ class RegisterScreenState extends State<RegisterScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           "Register",
           style: TextStyle(
@@ -50,11 +125,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                   ? Icons.light_mode
                   : Icons.dark_mode,
             ),
-            onPressed: () {
-              final themeProvider =
-              Provider.of<ThemeProvider>(context, listen: false);
-              themeProvider.toggleTheme();
-            },
+            onPressed: _toggleTheme,
           ),
         ],
       ),
@@ -72,6 +143,7 @@ class RegisterScreenState extends State<RegisterScreen> {
             ),
             SizedBox(height: mediaQueryHelper.scaledHeight(0.02)),
             TextField(
+              controller: _usernameController,
               decoration: InputDecoration(
                 labelText: 'Username',
                 border: OutlineInputBorder(
@@ -82,6 +154,7 @@ class RegisterScreenState extends State<RegisterScreen> {
             ),
             SizedBox(height: mediaQueryHelper.scaledHeight(0.02)),
             TextField(
+              controller: _phoneNumberController,
               decoration: InputDecoration(
                 labelText: 'Phone Number',
                 border: OutlineInputBorder(
@@ -93,6 +166,7 @@ class RegisterScreenState extends State<RegisterScreen> {
             ),
             SizedBox(height: mediaQueryHelper.scaledHeight(0.02)),
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(
@@ -103,6 +177,7 @@ class RegisterScreenState extends State<RegisterScreen> {
             ),
             SizedBox(height: mediaQueryHelper.scaledHeight(0.02)),
             TextField(
+              controller: _passwordController,
               obscureText: _obscurePassword,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -120,6 +195,7 @@ class RegisterScreenState extends State<RegisterScreen> {
             ),
             SizedBox(height: mediaQueryHelper.scaledHeight(0.02)),
             TextField(
+              controller: _confirmPasswordController,
               obscureText: _obscureConfirmPassword,
               decoration: InputDecoration(
                 labelText: 'Confirm Password',
@@ -129,10 +205,64 @@ class RegisterScreenState extends State<RegisterScreen> {
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(
-                    _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                    _obscureConfirmPassword
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                   ),
                   onPressed: _toggleConfirmPasswordVisibility,
                 ),
+              ),
+            ),
+            SizedBox(height: mediaQueryHelper.scaledHeight(0.02)),
+            ElevatedButton(
+              onPressed: _register,
+              style: ElevatedButton.styleFrom(
+                minimumSize:
+                Size(double.infinity, mediaQueryHelper.scaledHeight(0.06)),
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.circular(mediaQueryHelper.scaledWidth(0.02)),
+                ),
+              ),
+              child: Text(
+                'Register',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: mediaQueryHelper.scaledFontSize(0.04),
+                ),
+              ),
+            ),
+            SizedBox(height: mediaQueryHelper.scaledHeight(0.02)),
+            ElevatedButton(
+              onPressed: _googleSignUp,
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.white30,
+                minimumSize:
+                Size(double.infinity, mediaQueryHelper.scaledHeight(0.06)),
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.circular(mediaQueryHelper.scaledWidth(0.02)),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/google_logo.png',
+                    height: mediaQueryHelper.scaledHeight(0.04),
+                  ),
+                  SizedBox(width: mediaQueryHelper.scaledWidth(0.02)),
+                  Text(
+                    'Sign Up with Google',
+                    style: TextStyle(
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.black,
+                      fontSize: mediaQueryHelper.scaledFontSize(0.04),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: mediaQueryHelper.scaledHeight(0.02)),
@@ -160,34 +290,9 @@ class RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
             ),
-            SizedBox(height: mediaQueryHelper.scaledHeight(0.02)),
-            ElevatedButton(
-              onPressed: () {
-                // Handle registration
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize:
-                Size(double.infinity, mediaQueryHelper.scaledHeight(0.06)),
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.circular(mediaQueryHelper.scaledWidth(0.02)),
-                ),
-              ),
-              child: Text(
-                'Register',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: mediaQueryHelper.scaledFontSize(0.04),
-                ),
-              ),
-            ),
           ],
         ),
       ),
     );
-  }
-
-  void _goToLoginScreen() {
-    Navigator.pop(context);
   }
 }
