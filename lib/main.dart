@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:water_tanker/providers/theme_provider.dart';
-import 'package:water_tanker/views/login_screen.dart';
-import 'package:water_tanker/views/main_screen.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:water_tanker/blocs/navigation_bloc.dart';
+import 'screens/login_screen.dart';
+import 'screens/main_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
