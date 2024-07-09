@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -27,13 +28,18 @@ class OrdersScreenState extends State<OrdersScreen> {
     setState(() {
       _ordersFuture = _fetchOrders();
     });
+    await _ordersFuture;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Orders'),
+        centerTitle: true,
+        title: const Text(
+          'Orders',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+        ),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _ordersFuture,
@@ -46,7 +52,8 @@ class OrdersScreenState extends State<OrdersScreen> {
             return const Center(child: Text('No orders found.'));
           } else {
             final orders = snapshot.data!;
-            return CustomScrollView(
+            return defaultTargetPlatform == TargetPlatform.iOS
+                ? CustomScrollView(
               slivers: [
                 CupertinoSliverRefreshControl(
                   onRefresh: _refreshOrders,
@@ -57,7 +64,8 @@ class OrdersScreenState extends State<OrdersScreen> {
                       final order = orders[index];
                       final date = (order['timestamp'] as Timestamp).toDate();
                       return ListTile(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
                         title: Text(
                           'Order by: ${order['userName']}',
                           style: const TextStyle(fontWeight: FontWeight.bold),
@@ -69,7 +77,8 @@ class OrdersScreenState extends State<OrdersScreen> {
                             Text('Location: ${order['location']}'),
                             Text(
                               'Order Time: ${date.toLocal()}',
-                              style: const TextStyle(fontSize: 12, color: Colors.grey),
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -80,6 +89,37 @@ class OrdersScreenState extends State<OrdersScreen> {
                   ),
                 ),
               ],
+            )
+                : RefreshIndicator(
+              onRefresh: _refreshOrders,
+              child: ListView.builder(
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  final order = orders[index];
+                  final date = (order['timestamp'] as Timestamp).toDate();
+                  return ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16.0),
+                    title: Text(
+                      'Order by: ${order['userName']}',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Tanks: ${order['numberOfTanks']}'),
+                        Text('Location: ${order['location']}'),
+                        Text(
+                          'Order Time: ${date.toLocal()}',
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    isThreeLine: true,
+                  );
+                },
+              ),
             );
           }
         },
