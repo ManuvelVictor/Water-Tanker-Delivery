@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:water_tanker/blocs/home_bloc.dart';
-import 'package:water_tanker/providers/theme_provider.dart';
+import 'package:water_tanker/states/theme_state.dart';
+import 'blocs/theme_bloc.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:water_tanker/blocs/navigation_bloc.dart';
@@ -19,13 +20,10 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final themeProvider = ThemeProvider();
-  await themeProvider.loadThemeFromFirebase();
-
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => themeProvider),
+        BlocProvider(create: (_) => ThemeBloc()),
         BlocProvider(create: (_) => NavigationBloc()),
         BlocProvider(create: (_) => HomeBloc()),
       ],
@@ -58,41 +56,43 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        final themeProvider = Provider.of<ThemeProvider>(context);
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        return StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const MaterialApp(
+                home: Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                ),
+              );
+            }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const MaterialApp(
-            home: Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            ),
-          );
-        }
-
-        if (snapshot.hasData) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: _buildLightTheme(themeProvider),
-            darkTheme: _buildDarkTheme(themeProvider),
-            themeMode: themeProvider.themeMode,
-            home: const MainScreen(),
-          );
-        } else {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: _buildLightTheme(themeProvider),
-            darkTheme: _buildDarkTheme(themeProvider),
-            themeMode: themeProvider.themeMode,
-            home: const LoginScreen(),
-          );
-        }
+            if (snapshot.hasData) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: _buildLightTheme(),
+                darkTheme: _buildDarkTheme(),
+                themeMode: themeState.themeMode,
+                home: const MainScreen(),
+              );
+            } else {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: _buildLightTheme(),
+                darkTheme: _buildDarkTheme(),
+                themeMode: themeState.themeMode,
+                home: const LoginScreen(),
+              );
+            }
+          },
+        );
       },
     );
   }
 
-  ThemeData _buildLightTheme(ThemeProvider themeProvider) {
+  ThemeData _buildLightTheme() {
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
@@ -127,7 +127,7 @@ class MyAppState extends State<MyApp> {
     );
   }
 
-  ThemeData _buildDarkTheme(ThemeProvider themeProvider) {
+  ThemeData _buildDarkTheme() {
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(

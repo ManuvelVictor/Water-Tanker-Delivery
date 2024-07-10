@@ -7,6 +7,8 @@ abstract class HomeEvent extends Equatable {
 
 class UpdateLocationEvent extends HomeEvent {}
 
+class PlaceOrderEvent extends HomeEvent {}
+
 class SelectTanksEvent extends HomeEvent {
   final int numberOfTanks;
 

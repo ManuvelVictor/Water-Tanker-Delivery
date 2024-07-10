@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/theme_provider.dart';
+import 'package:water_tanker/blocs/theme_bloc.dart';
+import '../states/theme_state.dart';
 import 'about_app_screen.dart';
 import 'edit_profile_screen.dart';
 import 'login_screen.dart';
@@ -13,8 +13,8 @@ import 'privacy_policy_screen.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  void _showLogoutAlert(BuildContext context, ThemeProvider themeProvider) {
-    final theme = themeProvider.themeMode;
+  void _showLogoutAlert(BuildContext context, ThemeState themeState) {
+    final theme = themeState.themeMode;
     final backgroundColor =
         theme == ThemeMode.dark ? Colors.black : Colors.white;
     showDialog(
@@ -47,83 +47,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Profile',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.power_settings_new),
-            onPressed: () async {
-              HapticFeedback.heavyImpact();
-              _showLogoutAlert(context, themeProvider);
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Edit Profile Button
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const EditProfileScreen()),
-                );
-              },
-              child: const Text(
-                'Edit Profile',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: 16.0),
-
-            // Privacy Policy Button
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PrivacyPolicyScreen()),
-                );
-              },
-              child: const Text(
-                'Privacy Policy',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: 16.0),
-
-            // About App Button
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AboutAppScreen()),
-                );
-              },
-              child: const Text(
-                'About App',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Future<void> _logout(BuildContext context) async {
     try {
       final User? user = FirebaseAuth.instance.currentUser;
@@ -151,5 +74,85 @@ class ProfileScreen extends StatelessWidget {
             content: Text('Logout failed. Please try again.')),
       );
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text(
+              'Profile',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.power_settings_new),
+                onPressed: () async {
+                  HapticFeedback.heavyImpact();
+                  _showLogoutAlert(context, themeState);
+                },
+              ),
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Edit Profile Button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EditProfileScreen()),
+                    );
+                  },
+                  child: const Text(
+                    'Edit Profile',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+
+                // Privacy Policy Button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PrivacyPolicyScreen()),
+                    );
+                  },
+                  child: const Text(
+                    'Privacy Policy',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+
+                // About App Button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AboutAppScreen()),
+                    );
+                  },
+                  child: const Text(
+                    'About App',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
