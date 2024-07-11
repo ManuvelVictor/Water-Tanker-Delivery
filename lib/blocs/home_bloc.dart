@@ -40,16 +40,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onPlaceOrder(PlaceOrderEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(isPlacingOrder: true, orderSuccess: false, orderFailure: null));
-    final String userName = FirebaseAuth.instance.currentUser?.email ?? "Anonymous";
-    final orderRef = FirebaseFirestore.instance.collection('orders').doc();
+    final String userId = FirebaseAuth.instance.currentUser?.uid ?? "Anonymous";
+    final String userName = FirebaseAuth.instance.currentUser?.displayName ?? "Anonymous";
+    final String orderId = FirebaseFirestore.instance.collection('orders').doc().id;
+    final orderRef = FirebaseFirestore.instance.collection('orders').doc(orderId);
     try {
       await orderRef.set({
+        'orderId': orderId,
+        'userId': userId,
         'userName': userName,
         'numberOfTanks': state.selectedTanks,
-        'location': state.currentLocationName,
+        'locationName': state.currentLocationName,
         'latitude': state.latitude,
         'longitude': state.longitude,
-        'timestamp': FieldValue.serverTimestamp(),
+        'orderTime': FieldValue.serverTimestamp(),
+        'status': 'pending',
+        'assignedWorkerId': null,
+        'workerLocation': null,
       });
       emit(state.copyWith(isPlacingOrder: false, orderSuccess: true));
     } catch (e) {

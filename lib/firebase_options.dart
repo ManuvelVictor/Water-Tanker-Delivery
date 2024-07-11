@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBX9nLxwlbqvWQRdMak4rRdficfy3W69QQ',
-    appId: '1:668038362912:android:ee3daabf5d316303f5c945',
+    appId: '1:668038362912:android:41c28956ff396d9df5c945',
     messagingSenderId: '668038362912',
     projectId: 'water-tanker-delivery-flutter',
     storageBucket: 'water-tanker-delivery-flutter.appspot.com',
@@ -59,11 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBlyLsqZgobHEiQJwICfFAJPUInUngs9ZE',
-    appId: '1:668038362912:ios:c6f3a420d8a716aff5c945',
+    appId: '1:668038362912:ios:c48948001934b758f5c945',
     messagingSenderId: '668038362912',
     projectId: 'water-tanker-delivery-flutter',
     storageBucket: 'water-tanker-delivery-flutter.appspot.com',
-    iosBundleId: 'com.example.waterTanker',
+    iosClientId: '668038362912-4eregmgnv0ipkn7lmlma700v9k5184av.apps.googleusercontent.com',
+    iosBundleId: 'com.victor.waterTanker',
   );
 
 }

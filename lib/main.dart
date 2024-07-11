@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:water_tanker/blocs/home_bloc.dart';
+import 'package:water_tanker/blocs/login_bloc.dart';
+import 'package:water_tanker/blocs/register_bloc.dart';
 import 'package:water_tanker/states/theme_state.dart';
 import 'blocs/theme_bloc.dart';
 import 'firebase_options.dart';
@@ -24,6 +26,8 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         BlocProvider(create: (_) => ThemeBloc()),
+        BlocProvider(create: (_) => LoginBloc()),
+        BlocProvider(create: (_) => RegisterBloc()),
         BlocProvider(create: (_) => NavigationBloc()),
         BlocProvider(create: (_) => HomeBloc()),
       ],

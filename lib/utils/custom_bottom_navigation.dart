@@ -42,7 +42,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
           onTap(index);
         },
         child: Container(
-          height: 56.0,
+          height: 50.0,
+          padding: const EdgeInsets.symmetric(vertical: 0.0),
           decoration: BoxDecoration(
             border: isSelected
                 ? Border(top: BorderSide(color: selectedItemColor, width: 2.0))

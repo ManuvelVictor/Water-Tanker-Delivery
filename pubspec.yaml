@@ -1,4 +1,5 @@
 name: water_tanker
+
 description: "A new Flutter project."
 
 publish_to: 'none'
@@ -34,7 +35,6 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter:
-
   uses-material-design: true
   assets:
     - assets/anim/login_register.json

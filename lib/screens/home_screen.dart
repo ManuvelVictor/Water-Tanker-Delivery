@@ -130,19 +130,23 @@ class HomeScreen extends StatelessWidget {
                                   ),
                           ),
                           if (homeState.orderSuccess) ...[
-                            Text(
-                              'Order placed successfully!',
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: mediaQueryHelper.scaledFontSize(0.05),
+                            Center(
+                              child: Text(
+                                'Order placed successfully!',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: mediaQueryHelper.scaledFontSize(0.05),
+                                ),
                               ),
                             ),
                           ] else if (homeState.orderFailure != null) ...[
-                            Text(
-                              'Failed to place order. Please try again.',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: mediaQueryHelper.scaledFontSize(0.05),
+                            Center(
+                              child: Text(
+                                'Failed to place order. Please try again.',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: mediaQueryHelper.scaledFontSize(0.05),
+                                ),
                               ),
                             ),
                           ],

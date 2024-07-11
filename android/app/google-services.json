@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:668038362912:android:ee3daabf5d316303f5c945",
+        "mobilesdk_app_id": "1:668038362912:android:41c28956ff396d9df5c945",
         "android_client_info": {
-          "package_name": "com.example.water_tanker"
+          "package_name": "com.victor.water_tanker"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "668038362912-b9hn7i7iuk1620ugltsnbtjpehugbcsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBX9nLxwlbqvWQRdMak4rRdficfy3W69QQ"
@@ -20,7 +25,91 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668038362912-2engluaoias0j11frj9leuk02j22jaro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "668038362912-17vklfcdmdpn2e89nb2veqk5gihemjvd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.victor.waterTankerAdmin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668038362912:android:0686db28741e9927f5c945",
+        "android_client_info": {
+          "package_name": "com.victor.water_tanker_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668038362912-b9hn7i7iuk1620ugltsnbtjpehugbcsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX9nLxwlbqvWQRdMak4rRdficfy3W69QQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668038362912-2engluaoias0j11frj9leuk02j22jaro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "668038362912-17vklfcdmdpn2e89nb2veqk5gihemjvd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.victor.waterTankerAdmin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668038362912:android:408773db686cd822f5c945",
+        "android_client_info": {
+          "package_name": "com.victor.water_tanker_worker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668038362912-b9hn7i7iuk1620ugltsnbtjpehugbcsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX9nLxwlbqvWQRdMak4rRdficfy3W69QQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668038362912-2engluaoias0j11frj9leuk02j22jaro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "668038362912-17vklfcdmdpn2e89nb2veqk5gihemjvd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.victor.waterTankerAdmin"
+              }
+            }
+          ]
         }
       }
     }

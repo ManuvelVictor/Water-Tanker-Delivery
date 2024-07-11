@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>668038362912-vfm94r5heb4t8ntebdebhti5cfnhj3j0.apps.googleusercontent.com</string>
+	<string>668038362912-4eregmgnv0ipkn7lmlma700v9k5184av.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.668038362912-vfm94r5heb4t8ntebdebhti5cfnhj3j0</string>
+	<string>com.googleusercontent.apps.668038362912-4eregmgnv0ipkn7lmlma700v9k5184av</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBlyLsqZgobHEiQJwICfFAJPUInUngs9ZE</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.waterTanker</string>
+	<string>com.victor.waterTanker</string>
 	<key>PROJECT_ID</key>
 	<string>water-tanker-delivery-flutter</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:668038362912:ios:c6f3a420d8a716aff5c945</string>
+	<string>1:668038362912:ios:c48948001934b758f5c945</string>
 </dict>
 </plist>
