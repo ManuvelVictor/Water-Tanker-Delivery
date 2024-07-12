@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water_tanker/screens/track_order_screen.dart';
 
 import '../blocs/order_bloc.dart';
 import '../events/order_event.dart';
@@ -29,7 +30,14 @@ class OrdersScreenState extends State<OrdersScreen> {
     _ordersBloc.add(FetchOrders());
   }
 
-  void _trackOrder() {}
+  void _trackOrder(String orderId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TrackOrderScreen(orderID: orderId),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,9 +110,13 @@ class OrdersScreenState extends State<OrdersScreen> {
                                                       16.0),
                                                   child: ElevatedButton(
                                                     onPressed: () =>
-                                                        _trackOrder(),
+                                                        _trackOrder(
+                                                            order['orderId']),
                                                     child: const Text(
-                                                        'Track My Order', style: TextStyle(color: Colors.white),),
+                                                      'Track My Order',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -163,9 +175,13 @@ class OrdersScreenState extends State<OrdersScreen> {
                                               padding:
                                                   const EdgeInsets.all(16.0),
                                               child: ElevatedButton(
-                                                onPressed: () => _trackOrder(),
+                                                onPressed: () => _trackOrder(
+                                                    order['orderId']),
                                                 child: const Text(
-                                                    'Track My Order', style: TextStyle(color: Colors.white),),
+                                                  'Track My Order',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
                                               ),
                                             ),
                                           ),

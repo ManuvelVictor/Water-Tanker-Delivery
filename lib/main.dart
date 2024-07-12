@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:water_tanker/blocs/home_bloc.dart';
 import 'package:water_tanker/blocs/login_bloc.dart';
 import 'package:water_tanker/blocs/register_bloc.dart';
+import 'package:water_tanker/blocs/track_order_bloc.dart';
 import 'package:water_tanker/states/theme_state.dart';
 import 'blocs/theme_bloc.dart';
 import 'firebase_options.dart';
@@ -30,6 +31,7 @@ Future<void> main() async {
         BlocProvider(create: (_) => RegisterBloc()),
         BlocProvider(create: (_) => NavigationBloc()),
         BlocProvider(create: (_) => HomeBloc()),
+        BlocProvider(create: (_) => TrackOrderBloc()),
       ],
       child: const MyApp(),
     ),
