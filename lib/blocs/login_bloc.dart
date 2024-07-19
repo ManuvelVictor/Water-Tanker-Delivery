@@ -62,6 +62,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     _obscurePassword = !_obscurePassword;
     emit(PasswordVisibilityToggled(obscurePassword: _obscurePassword));
   }
+
   @override
   Future<void> close() {
     emailController.dispose();

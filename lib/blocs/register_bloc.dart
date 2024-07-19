@@ -1,8 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import '../events/register_event.dart';
 import '../states/register_state.dart';
 
@@ -23,7 +24,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterWithEmailAndPassword>((event, emit) async {
       emit(RegisterLoading());
       try {
-        final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        final UserCredential userCredential =
+            await _auth.createUserWithEmailAndPassword(
           email: event.email,
           password: event.password,
         );
@@ -53,7 +55,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           emit(RegisterFailure(error: 'Google Sign-In cancelled.'));
           return;
         }
-        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,

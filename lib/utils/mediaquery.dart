@@ -21,5 +21,6 @@ class MediaQueryHelper {
   double scaledWidth(double fraction) => width * fraction;
 
   // Scaled font size based on a fraction
-  double scaledFontSize(double fraction) => scaledWidth(fraction) / textScaleFactor;
+  double scaledFontSize(double fraction) =>
+      scaledWidth(fraction) / textScaleFactor;
 }

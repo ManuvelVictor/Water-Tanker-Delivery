@@ -4,25 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+
 import '../events/home_event.dart';
 import '../states/home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(const HomeState(selectedTanks: 1, currentLocationName: "Tap here to get current location")) {
+  HomeBloc()
+      : super(const HomeState(
+            selectedTanks: 1,
+            currentLocationName: "Tap here to get current location")) {
     on<UpdateLocationEvent>(_onUpdateLocation);
     on<SelectTanksEvent>(_onSelectTanks);
     on<PlaceOrderEvent>(_onPlaceOrder);
   }
 
-  Future<void> _onUpdateLocation(UpdateLocationEvent event, Emitter<HomeState> emit) async {
+  Future<void> _onUpdateLocation(
+      UpdateLocationEvent event, Emitter<HomeState> emit) async {
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-      List<Placemark> placeMarks = await placemarkFromCoordinates(
-          position.latitude, position.longitude);
+      List<Placemark> placeMarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
       if (placeMarks.isNotEmpty) {
         emit(state.copyWith(
-          currentLocationName: "${placeMarks.first.locality}, ${placeMarks.first.country}",
+          currentLocationName:
+              "${placeMarks.first.locality}, ${placeMarks.first.country}",
           latitude: position.latitude,
           longitude: position.longitude,
         ));
@@ -38,12 +44,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     ));
   }
 
-  Future<void> _onPlaceOrder(PlaceOrderEvent event, Emitter<HomeState> emit) async {
-    emit(state.copyWith(isPlacingOrder: true, orderSuccess: false, orderFailure: null));
+  Future<void> _onPlaceOrder(
+      PlaceOrderEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(
+        isPlacingOrder: true, orderSuccess: false, orderFailure: null));
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? "Anonymous";
-    final String userName = FirebaseAuth.instance.currentUser?.displayName ?? "Anonymous";
-    final String orderId = FirebaseFirestore.instance.collection('orders').doc().id;
-    final orderRef = FirebaseFirestore.instance.collection('orders').doc(orderId);
+    final String userName =
+        FirebaseAuth.instance.currentUser?.displayName ?? "Anonymous";
+    final String orderId =
+        FirebaseFirestore.instance.collection('orders').doc().id;
+    final orderRef =
+        FirebaseFirestore.instance.collection('orders').doc(orderId);
     try {
       await orderRef.set({
         'orderId': orderId,
@@ -60,7 +71,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       });
       emit(state.copyWith(isPlacingOrder: false, orderSuccess: true));
     } catch (e) {
-      emit(state.copyWith(isPlacingOrder: false, orderSuccess: false, orderFailure: e.toString()));
+      emit(state.copyWith(
+          isPlacingOrder: false,
+          orderSuccess: false,
+          orderFailure: e.toString()));
       const SnackBar(content: Text('Error placing order'));
     }
   }

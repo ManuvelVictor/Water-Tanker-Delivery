@@ -4,12 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:water_tanker/events/theme_event.dart';
 import 'package:water_tanker/states/theme_state.dart';
+
+import '../blocs/register_bloc.dart';
 import '../blocs/theme_bloc.dart';
 import '../events/register_event.dart';
 import '../states/register_state.dart';
 import '../utils/mediaquery.dart';
 import 'main_screen.dart';
-import '../blocs/register_bloc.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});

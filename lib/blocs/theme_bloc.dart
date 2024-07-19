@@ -18,11 +18,11 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid != null) {
       final userDoc =
-      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
       if (userDoc.exists) {
         final themeStr = userDoc.data()?['theme'] ?? 'ThemeMode.light';
         final themeMode =
-        themeStr == 'ThemeMode.dark' ? ThemeMode.dark : ThemeMode.light;
+            themeStr == 'ThemeMode.dark' ? ThemeMode.dark : ThemeMode.light;
         emit(ThemeState(themeMode));
       }
     }
@@ -31,7 +31,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   Future<void> _onToggleTheme(
       ToggleThemeEvent event, Emitter<ThemeState> emit) async {
     final newThemeMode =
-    state.themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+        state.themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     emit(ThemeState(newThemeMode));
     await _saveThemeToFirebase(newThemeMode);
   }
@@ -47,7 +47,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     if (uid != null) {
       await FirebaseFirestore.instance.collection('users').doc(uid).update({
         'theme':
-        themeMode == ThemeMode.dark ? 'ThemeMode.dark' : 'ThemeMode.light',
+            themeMode == ThemeMode.dark ? 'ThemeMode.dark' : 'ThemeMode.light',
       });
     }
   }

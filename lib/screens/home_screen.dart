@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:water_tanker/events/theme_event.dart';
+
 import '../blocs/home_bloc.dart';
 import '../blocs/theme_bloc.dart';
 import '../events/home_event.dart';
@@ -135,7 +136,8 @@ class HomeScreen extends StatelessWidget {
                                 'Order placed successfully!',
                                 style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: mediaQueryHelper.scaledFontSize(0.05),
+                                  fontSize:
+                                      mediaQueryHelper.scaledFontSize(0.05),
                                 ),
                               ),
                             ),
@@ -145,7 +147,8 @@ class HomeScreen extends StatelessWidget {
                                 'Failed to place order. Please try again.',
                                 style: TextStyle(
                                   color: Colors.red,
-                                  fontSize: mediaQueryHelper.scaledFontSize(0.05),
+                                  fontSize:
+                                      mediaQueryHelper.scaledFontSize(0.05),
                                 ),
                               ),
                             ),

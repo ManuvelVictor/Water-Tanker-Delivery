@@ -21,7 +21,8 @@ class RegisterWithEmailAndPassword extends RegisterEvent {
   });
 
   @override
-  List<Object?> get props => [username, phoneNumber, email, password, confirmPassword];
+  List<Object?> get props =>
+      [username, phoneNumber, email, password, confirmPassword];
 }
 
 class RegisterWithGoogle extends RegisterEvent {}

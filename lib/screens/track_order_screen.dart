@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../blocs/track_order_bloc.dart';
 import '../events/track_order_event.dart';
 import '../states/track_order_state.dart';
@@ -22,12 +23,14 @@ class TrackOrderScreenState extends State<TrackOrderScreen> {
   final Set<Polyline> _polylines = {};
   final Set<Marker> _markers = {};
   BitmapDescriptor? personIcon;
-  late final LatLng _destination = const LatLng(11.081206902432173, 76.94137929896259);
+  late final LatLng _destination =
+      const LatLng(11.081206902432173, 76.94137929896259);
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<TrackOrderBloc>(context).add(StartTrackingEvent(widget.orderID));
+    BlocProvider.of<TrackOrderBloc>(context)
+        .add(StartTrackingEvent(widget.orderID));
     _loadCustomMarker();
   }
 
@@ -46,7 +49,6 @@ class TrackOrderScreenState extends State<TrackOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Track Order'),

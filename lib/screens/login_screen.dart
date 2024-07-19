@@ -4,13 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:water_tanker/blocs/theme_bloc.dart';
 import 'package:water_tanker/events/theme_event.dart';
+
+import '../blocs/login_bloc.dart';
 import '../events/login_event.dart';
 import '../states/login_state.dart';
 import '../states/theme_state.dart';
 import '../utils/mediaquery.dart';
 import 'main_screen.dart';
 import 'register_screen.dart';
-import '../blocs/login_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -83,28 +84,39 @@ class LoginScreen extends StatelessWidget {
                         _buildPasswordTextField(
                           context: context,
                           label: 'Password',
-                          controller: context.read<LoginBloc>().passwordController,
+                          controller:
+                              context.read<LoginBloc>().passwordController,
                           obscureText: (state is PasswordVisibilityToggled)
                               ? state.obscurePassword
                               : true,
                           toggleVisibility: () {
-                            context.read<LoginBloc>().add(TogglePasswordVisibility());
+                            context
+                                .read<LoginBloc>()
+                                .add(TogglePasswordVisibility());
                           },
                         ),
                         SizedBox(height: mediaQueryHelper.scaledHeight(0.02)),
                         ElevatedButton(
                           onPressed: () {
                             context.read<LoginBloc>().add(
-                              LoginWithEmailAndPassword(
-                                email: context.read<LoginBloc>().emailController.text,
-                                password: context.read<LoginBloc>().passwordController.text,
-                              ),
-                            );
+                                  LoginWithEmailAndPassword(
+                                    email: context
+                                        .read<LoginBloc>()
+                                        .emailController
+                                        .text,
+                                    password: context
+                                        .read<LoginBloc>()
+                                        .passwordController
+                                        .text,
+                                  ),
+                                );
                           },
                           style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, mediaQueryHelper.scaledHeight(0.06)),
+                            minimumSize: Size(double.infinity,
+                                mediaQueryHelper.scaledHeight(0.06)),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(mediaQueryHelper.scaledWidth(0.02)),
+                              borderRadius: BorderRadius.circular(
+                                  mediaQueryHelper.scaledWidth(0.02)),
                             ),
                           ),
                           child: Text(
@@ -123,9 +135,11 @@ class LoginScreen extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black,
                             backgroundColor: Colors.white30,
-                            minimumSize: Size(double.infinity, mediaQueryHelper.scaledHeight(0.06)),
+                            minimumSize: Size(double.infinity,
+                                mediaQueryHelper.scaledHeight(0.06)),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(mediaQueryHelper.scaledWidth(0.02)),
+                              borderRadius: BorderRadius.circular(
+                                  mediaQueryHelper.scaledWidth(0.02)),
                             ),
                           ),
                           child: Row(
@@ -135,14 +149,16 @@ class LoginScreen extends StatelessWidget {
                                 'assets/images/google_logo.png',
                                 height: mediaQueryHelper.scaledHeight(0.04),
                               ),
-                              SizedBox(width: mediaQueryHelper.scaledWidth(0.02)),
+                              SizedBox(
+                                  width: mediaQueryHelper.scaledWidth(0.02)),
                               Text(
                                 'Sign In with Google',
                                 style: TextStyle(
                                   color: themeState.themeMode == ThemeMode.dark
                                       ? Colors.white
                                       : Colors.black,
-                                  fontSize: mediaQueryHelper.scaledFontSize(0.04),
+                                  fontSize:
+                                      mediaQueryHelper.scaledFontSize(0.04),
                                 ),
                               ),
                             ],
@@ -156,14 +172,17 @@ class LoginScreen extends StatelessWidget {
                               Text(
                                 "Don't have an account? ",
                                 style: TextStyle(
-                                  fontSize: mediaQueryHelper.scaledFontSize(0.04),
+                                  fontSize:
+                                      mediaQueryHelper.scaledFontSize(0.04),
                                 ),
                               ),
                               GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RegisterScreen()),
                                   );
                                 },
                                 child: Text(
@@ -171,7 +190,8 @@ class LoginScreen extends StatelessWidget {
                                   style: TextStyle(
                                     color: Colors.blue,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: mediaQueryHelper.scaledFontSize(0.04),
+                                    fontSize:
+                                        mediaQueryHelper.scaledFontSize(0.04),
                                   ),
                                 ),
                               ),
@@ -209,7 +229,8 @@ class LoginScreen extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(mediaQueryHelper.scaledWidth(0.02)),
+          borderRadius:
+              BorderRadius.circular(mediaQueryHelper.scaledWidth(0.02)),
         ),
       ),
     );
@@ -229,7 +250,8 @@ class LoginScreen extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(mediaQueryHelper.scaledWidth(0.02)),
+          borderRadius:
+              BorderRadius.circular(mediaQueryHelper.scaledWidth(0.02)),
         ),
         suffixIcon: IconButton(
           icon: Icon(obscureText ? Icons.visibility : Icons.visibility_off),

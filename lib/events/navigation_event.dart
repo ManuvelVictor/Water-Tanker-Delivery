@@ -6,4 +6,4 @@ class NavigateToOrders extends NavigationEvent {}
 
 class NavigateToProfile extends NavigationEvent {}
 
-class NavigateToRegister extends NavigationEvent{}
+class NavigateToRegister extends NavigationEvent {}

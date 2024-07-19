@@ -32,8 +32,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(BuildContext context, int index, IconData icon,
-      String label) {
+  Widget _buildItem(
+      BuildContext context, int index, IconData icon, String label) {
     final bool isSelected = index == currentIndex;
     return Expanded(
       child: GestureDetector(
